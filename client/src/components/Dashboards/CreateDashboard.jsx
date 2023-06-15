@@ -1,8 +1,14 @@
-
-
-
+import { useState } from "react";
 
 const CreateDashboard = () => {
+
+    const [kpiList, setKpiList] = useState();
+
+    const getKpiList = async () => {
+        const response = await fetch (
+            ""
+        )
+    }
     
 
     return (
