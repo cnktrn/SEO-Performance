@@ -10,7 +10,7 @@ export const getDashboards = async (req,res) => {
 }
 
 export const getDashboard = async (req, res) => {
-    const id = req.body.id;
+    const id = req.params.id;
     try {
         const dashboard = await Dashboard.findById(id);
         res.status(200).json(dashboard);

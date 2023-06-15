@@ -5,6 +5,8 @@ import Login from "./components/Authentication/Login.jsx";
 import './App.css';
 import logo from './resources/MMLogo.png';
 import Workspace from "./components/Dashboards/Workspace.jsx";
+import Dashboard from "./components/Dashboards/Dashboard.jsx";
+import CreateDashboard  from "./components/Dashboards/CreateDashboard.jsx";
 
 const App = () => {
     return (
@@ -23,7 +25,8 @@ const App = () => {
                     <Route path="/login" exact component={Login} />
                     <Route path="/signup" exact component={SignUp} />
                     <Route path="/dashboards" exact component={Workspace} />
-                    <Route path="/dashboards/:id" exact component={SignUp} />
+                    <Route path="/dashboards/:id" exact component={Dashboard} />
+                    <Route path="/CreateDashboard" exact component={CreateDashboard} />
                 </Switch>
             </div>
         </BrowserRouter>

@@ -5,6 +5,8 @@ const Workspace = () => {
 
     const [dashboards, setDashboards] = useState([]);
 
+    const history = useHistory();
+
     useEffect(() => {
         getDashboards();
     }, []);
@@ -43,12 +45,14 @@ const Workspace = () => {
     return (
         <div>
             <h1>Workspace</h1>
-            <button>New Dashboard</button>
+            <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
 
             {
                 dashboards.map(dashboard =>
-                    <div key={dashboard._id}>
-                        {dashboard.dashboardName}
+                    <div>
+                        <button onClick={() => history.push("/dashboards/" + dashboard._id)} key={dashboard._id}>
+                            {dashboard.dashboardName}
+                        </button>
                     </div>
                 )
             }

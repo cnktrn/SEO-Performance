@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get("/getDashboards", getDashboards);
 router.post("/createDashboard", createDashboard);
-router.get("/getDashboard", getDashboard);
+router.get("/:id", getDashboard);
 
 export default router;
