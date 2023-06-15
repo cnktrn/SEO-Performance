@@ -12,7 +12,7 @@ const Workspace = () => {
     // Function that gets all dashboards from the MongoDB and saves them in the dashboards useState
     const getDashboards = async () => {
         const response = await fetch(
-            "http://localhost:5555/dashboards/",
+            "http://localhost:5555/dashboards/getDashboards",
             {
                 method: "GET",
                 headers: {
@@ -44,6 +44,14 @@ const Workspace = () => {
         <div>
             <h1>Workspace</h1>
             <button>New Dashboard</button>
+
+            {
+                dashboards.map(dashboard =>
+                    <div key={dashboard._id}>
+                        {dashboard.dashboardName}
+                    </div>
+                )
+            }
         </div>
     )
 
