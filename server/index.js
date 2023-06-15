@@ -5,6 +5,7 @@ import cors from "cors";
 
 import usersRouter from "./routes/users.js";
 import dashboardsRouter from "./routes/dashboards.js";
+import querisRouter from "./routes/queries.js";
 
 const app = express();
 
@@ -15,10 +16,12 @@ const PORT = 5555;
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 app.use(cors());
 
 app.use("/users", usersRouter)
 app.use("/dashboards", dashboardsRouter)
+app.use("/queries", querisRouter)
 
 // connect to mongodb using a connection string
 const CONNECTION_URL = "mongodb+srv://max:max123@di.6jqtvsa.mongodb.net/shoppinglist?retryWrites=true&w=majority";
