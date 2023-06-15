@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const Workspace = () => {
 
     const [dashboards, setDashboards] = useState([]);
 
+    useEffect(() => {
+        getDashboards();
+    }, []);
+
+    // Function that gets all dashboards from the MongoDB and saves them in the dashboards useState
     const getDashboards = async () => {
         const response = await fetch(
             "http://localhost:5555/dashboards/",
@@ -19,15 +24,28 @@ const Workspace = () => {
 
         const jsonResponse = await response.json();
         setDashboards(jsonResponse);
-        }
-}
+    }
 
-return (
-    <div>
-        <h1>Workspace</h1>
-        <button>New Dashboard</button>
-    </div>
-)
+    const deleteDashboard = async (dashboardID) => {
+        await fetch(
+            "http://localhost:5555/dashboards" + dashboardID,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
+                },
+            }
+        );
+        getDashboards();
+    }
+
+    return (
+        <div>
+            <h1>Workspace</h1>
+            <button>New Dashboard</button>
+        </div>
+    )
 
 }
 
