@@ -30,52 +30,33 @@ const Workspace = () => {
         setDashboards(jsonResponse);
     }
 
-    const createDashboard = async (e) => {
-        e.preventDefault();
-
-        await fetch(
-            "http://localhost:5555/dashboards/createDashboard",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
-                },
-                body: JSON.stringify({
-                    dashboardName: "Name Placeholder" + numDashboards,
-                    dataSource: "Placeholder",
-                }),
-            }
-        );
-        getDashboards();
-        history.push("/CreateDashboard/")
-    }
-
-    const deleteDashboard = async (dashboardID) => {
-        await fetch(
-            "http://localhost:5555/dashboards" + dashboardID,
-            {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
-                },
-            }
-        );
-        getDashboards();
-    }
+    // const deleteDashboard = async (e, dashboardID) => {
+    //     e.preventDefault();
+    //     await fetch(
+    //         "http://localhost:5555/dashboards/" + dashboardID,
+    //         {
+    //             method: "DELETE",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": "Bearer " + window.localStorage.getItem("token"),
+    //             },
+    //         }
+    //     );
+    //     getDashboards();
+    // }
 
     return (
         <div>
             <h1>Workspace</h1>
-            <button onClick={e => { createDashboard(e) }}>New Dashboard</button>
-
+            <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
             {
                 dashboards.map(dashboard =>
                     <div>
                         <button onClick={() => history.push("./dashboards/" + dashboard._id)} key={dashboard._id}>
                             {dashboard.dashboardName}
                         </button>
+                        <button>- Delete</button>
+                        {/* <button onClick={e => deleteDashboard(e, dashboard._id)}>- Delete</button> */}
                     </div>
                 )
             }

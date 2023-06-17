@@ -71,10 +71,25 @@ const CreateDashboard = () => {
         getDashboard();
     }
 
-    const createDashboard = (e) => {
+    const createDashboard = async (e) => {
         e.preventDefault();
-        updateDashboardName(dashboardName);
-        history.push("./dashboards/" + dashboard._id);
+
+        await fetch(
+            "http://localhost:5555/dashboards/createDashboard",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
+                },
+                body: JSON.stringify({
+                    dashboardName: dashboardName,
+                    dataSource: "Placeholder",
+                    KPIs: addedKPIs,
+                }),
+            }
+        );
+
     }
 
     return (
