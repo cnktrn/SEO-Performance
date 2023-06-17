@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 const CreateDashboard = () => {
@@ -10,7 +10,9 @@ const CreateDashboard = () => {
     const [addedKPIs, setAddedKPIs] = useState([]);
     const [selectedOption, setSelectedOption] = useState('');
 
-    const {id} = useParams();
+    const { id } = useParams();
+
+    const history = useHistory();
 
     useEffect(() => {
         getKpiList();
@@ -52,10 +54,28 @@ const CreateDashboard = () => {
         setKpiList(jsonResponse);
     }
 
-    const createDashboard = () => {
-
+    // Updates previous placeholder name of dashboard with name that the user put in
+    const updateDashboardName = async (name) => {
+        const newName = dashboardName;
+        await fetch(
+            "http://localhost:5555/lists/" + id,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
+                },
+                body: JSON.stringify({ dashboardName: newName }),
+            }
+        )
+        getDashboard();
     }
 
+    const createDashboard = (e) => {
+        e.preventDefault();
+        updateDashboardName(dashboardName);
+        history.push("./dashboards/" + dashboard._id);
+    }
 
     return (
         <div>
@@ -92,6 +112,7 @@ const CreateDashboard = () => {
                     </select>
                 </div>
                 <h3>Your Dashboard</h3>
+                <button onClick={e => createDashboard(e)}>Save Dashboard</button>
             </div>
         </div>
     )
