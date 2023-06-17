@@ -1,11 +1,16 @@
-import { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const CreateDashboard = () => {
 
-    const [kpiList, setKpiList] = useState();
+    const [kpiList, setKpiList] = useState([]);
     const [dashboardName, setDashboardName] = useState("");
+    const [addedKPIs, setAddedKPIs] = useState([]);
     const [selectedOption, setSelectedOption] = useState('');
+
+    useEffect(() => {
+        getKpiList();
+    }, []);
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -13,8 +18,22 @@ const CreateDashboard = () => {
 
     const getKpiList = async () => {
         const response = await fetch(
-            ""
+            "http://localhost:5555/kpis/getKPIs",
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
+                },
+            }
         )
+
+        const jsonResponse = await response.json();
+        setKpiList(jsonResponse);
+    }
+
+    const createDashboard = () => {
+
     }
 
 
@@ -29,6 +48,13 @@ const CreateDashboard = () => {
                     onChange={e => setDashboardName(e.target.value)}
                 />
                 <h3>Available SEO Metrics</h3>
+                {
+                    kpiList.map(kpi =>
+                        <div key={kpi._id}>
+                            {kpi.kpiName}
+                        </div>
+                    )
+                }
             </div>
             <div className="right-column">
                 <h3>Data Source</h3>

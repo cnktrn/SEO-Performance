@@ -1,4 +1,4 @@
-import KPI from "../models/dashboard.js";
+import KPI from "../models/kpi.js";
 
 export const getKPIs = async (req,res) => {
     try {
