@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@influxdata/influxdb-client": "^1.33.2",
+    "@influxdata/influxdb-client-apis": "^1.33.2",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
@@ -18,7 +20,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.1.2",
     "node": "^20.2.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "package.json": "^2.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.3.1"
