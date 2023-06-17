@@ -1,20 +1,40 @@
 import React, { useEffect, useState } from "react";
+import {useParams} from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 const CreateDashboard = () => {
 
     const [kpiList, setKpiList] = useState([]);
+    const [dashboard, setDashboard] = useState();
     const [dashboardName, setDashboardName] = useState("");
     const [addedKPIs, setAddedKPIs] = useState([]);
     const [selectedOption, setSelectedOption] = useState('');
 
+    const {id} = useParams();
+
     useEffect(() => {
         getKpiList();
+        getDashboard();
     }, []);
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
     };
+
+    const getDashboard = async () => {
+        const response = await fetch(
+            "http://localhost:5555/dashboards/" + id,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
+                },
+            }
+        )
+        const jsonResponse = await response.json();
+        setDashboard(jsonResponse);
+    }
 
     const getKpiList = async () => {
         const response = await fetch(
@@ -51,7 +71,12 @@ const CreateDashboard = () => {
                 {
                     kpiList.map(kpi =>
                         <div key={kpi._id}>
-                            {kpi.kpiName}
+                            <div>
+                                {kpi.kpiName}
+                            </div>
+                            <div>
+                                <button>+</button>
+                            </div>
                         </div>
                     )
                 }

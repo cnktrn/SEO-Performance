@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 const Workspace = () => {
 
     const [dashboards, setDashboards] = useState([]);
+    const [numDashboards, setNumDashboards] = useState(0);
 
     const history = useHistory();
 
@@ -23,9 +24,31 @@ const Workspace = () => {
                 },
             }
         )
-
         const jsonResponse = await response.json();
+        const count = jsonResponse.length;
+        setNumDashboards(count);
         setDashboards(jsonResponse);
+    }
+
+    const createDashboard = async (e) => {
+        e.preventDefault();
+
+        await fetch(
+            "http://localhost:5555/dashboards/createDashboard",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
+                },
+                body: JSON.stringify({
+                    dashboardName: "Name Placeholder" + numDashboards,
+                    dataSource: "Placeholder",
+                }),
+            }
+        );
+        getDashboards();
+        history.push("/CreateDashboard/")
     }
 
     const deleteDashboard = async (dashboardID) => {
@@ -45,12 +68,12 @@ const Workspace = () => {
     return (
         <div>
             <h1>Workspace</h1>
-            <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
+            <button onClick={e => { createDashboard(e) }}>New Dashboard</button>
 
             {
                 dashboards.map(dashboard =>
                     <div>
-                        <button onClick={() => history.push("/dashboards/" + dashboard._id)} key={dashboard._id}>
+                        <button onClick={() => history.push("./dashboards/" + dashboard._id)} key={dashboard._id}>
                             {dashboard.dashboardName}
                         </button>
                     </div>
