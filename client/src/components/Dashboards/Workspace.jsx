@@ -25,25 +25,23 @@ const Workspace = () => {
             }
         )
         const jsonResponse = await response.json();
-        const count = jsonResponse.length;
-        setNumDashboards(count);
         setDashboards(jsonResponse);
     }
 
-    // const deleteDashboard = async (e, dashboardID) => {
-    //     e.preventDefault();
-    //     await fetch(
-    //         "http://localhost:5555/dashboards/" + dashboardID,
-    //         {
-    //             method: "DELETE",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": "Bearer " + window.localStorage.getItem("token"),
-    //             },
-    //         }
-    //     );
-    //     getDashboards();
-    // }
+    const deleteDashboard = async (dashboardID) => {
+        await fetch(
+            "http://localhost:5555/dashboards/" + dashboardID,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
+                },
+            }
+        );
+        console.log("Deleted Dashboard");
+        getDashboards();
+    }
 
     return (
         <div>
@@ -51,12 +49,11 @@ const Workspace = () => {
             <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
             {
                 dashboards.map(dashboard =>
-                    <div>
-                        <button onClick={() => history.push("./dashboards/" + dashboard._id)} key={dashboard._id}>
+                    <div key={dashboard._id}>
+                        <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
                             {dashboard.dashboardName}
                         </button>
-                        <button>- Delete</button>
-                        {/* <button onClick={e => deleteDashboard(e, dashboard._id)}>- Delete</button> */}
+                        <button onClick={e => deleteDashboard(dashboard._id)}>- Delete</button>
                     </div>
                 )
             }
