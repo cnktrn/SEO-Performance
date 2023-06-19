@@ -16,7 +16,6 @@ const CreateDashboard = () => {
 
     useEffect(() => {
         getKpiList();
-        getDashboard();
     }, []);
 
     const handleOptionChange = (event) => {
@@ -54,23 +53,6 @@ const CreateDashboard = () => {
         setKpiList(jsonResponse);
     }
 
-    // Updates previous placeholder name of dashboard with name that the user put in
-    const updateDashboardName = async (name) => {
-        const newName = dashboardName;
-        await fetch(
-            "http://localhost:5555/lists/" + id,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
-                },
-                body: JSON.stringify({ dashboardName: newName }),
-            }
-        )
-        getDashboard();
-    }
-
     const createDashboard = async (e) => {
         e.preventDefault();
 
@@ -89,13 +71,21 @@ const CreateDashboard = () => {
                 }),
             }
         );
+    }
 
+    const addKPItoList = (e, kpi) => {
+        e.preventDefault();
+        const newKPIList = [...addedKPIs, kpi];
+        const oldKPIList = addedKPIs.filter((item) => item._id !== kpi._id)
+        setKpiList(oldKPIList);
+        setAddedKPIs(newKPIList);
     }
 
     return (
         <div>
             <h1>Create Dashboard</h1>
             <div className="left-column">
+                <button onClick={() => console.log(addedKPIs)}>CLICK</button>
                 <h3>Name</h3>
                 <input
                     value={dashboardName}
@@ -110,7 +100,7 @@ const CreateDashboard = () => {
                                 {kpi.kpiName}
                             </div>
                             <div>
-                                <button>+</button>
+                                <button onClick={e => addKPItoList(e, kpi)}>+</button>
                             </div>
                         </div>
                     )
@@ -127,6 +117,18 @@ const CreateDashboard = () => {
                     </select>
                 </div>
                 <h3>Your Dashboard</h3>
+                {
+                    addedKPIs.map(kpi =>
+                        <div key={kpi._id}>
+                            <div>
+                                {kpi.kpiName}
+                            </div>
+                            <div>
+                                <button>-</button>
+                            </div>
+                        </div>
+                    )
+                }
                 <button onClick={e => createDashboard(e)}>Save Dashboard</button>
             </div>
         </div>
