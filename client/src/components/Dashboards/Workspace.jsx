@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 const Workspace = () => {
 
     const [dashboards, setDashboards] = useState([]);
-    const [numDashboards, setNumDashboards] = useState(0);
+    const [selectedDashboards, setSelectedDashboards] = useState([]);
 
     const history = useHistory();
 
@@ -28,6 +28,7 @@ const Workspace = () => {
         setDashboards(jsonResponse);
     }
 
+    // Function that deletes a dashboard from the database
     const deleteDashboard = async (dashboardID) => {
         await fetch(
             "http://localhost:5555/dashboards/" + dashboardID,
@@ -43,13 +44,56 @@ const Workspace = () => {
         getDashboards();
     }
 
+    // Function that adds selected dashboards to selectedDashboards state variable
+    const handleSelectedDashboards = (dashboardID) => {
+        const isSelected = selectedDashboards.includes(dashboardID);
+        if (isSelected) {
+            setSelectedDashboards(selectedDashboards.filter((id) => id !== dashboardID));
+        } else {
+            setSelectedDashboards([...selectedDashboards, dashboardID])
+        }
+        getDashboards();
+    }
+
+    const handleSelectAll = () => {
+        if (selectedDashboards.length === dashboards.length) {
+            // If all dashboards are selected, deselect all dashboards
+            setSelectedDashboards([]);
+        } else {
+            // Select all dashboards
+            const allDashboards = dashboards.map((dashboard) => dashboard._id);
+            setSelectedDashboards(allDashboards);
+        }
+    }
+
     return (
         <div>
-            <h1>Workspace</h1>
-            <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
+            <div>
+                <div>
+                    <h1>Dashboards</h1>
+                    <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
+                </div>
+                <div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            checked={selectedDashboards.length === dashboards.length}
+                            onChange={handleSelectAll}
+                        />
+                        <p>Name</p>
+                        <p>Date added</p>
+                        <p>Fair</p>
+                    </div>
+                </div>
+            </div>
             {
                 dashboards.map(dashboard =>
                     <div key={dashboard._id}>
+                        <input
+                            type="checkbox"
+                            checked={selectedDashboards.includes(dashboard._id)}
+                            onChange={() => handleSelectedDashboards(dashboard._id)}
+                        />
                         <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
                             {dashboard.dashboardName}
                         </button>
