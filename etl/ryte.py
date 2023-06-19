@@ -4,6 +4,7 @@ from influxdb_client import InfluxDBClient, Point, WritePrecision, QueryApi
 from influxdb_client.client.write_api import SYNCHRONOUS
 from datetime import datetime, timedelta, timezone, date, time
 import pytz
+from influxDB_write import write_to_influxdb, create_point_with_tag, create_point, find_latest_data_point
 
 
 
@@ -35,24 +36,12 @@ headers = {
         'Content-Type': 'application/json'
     }
 
-def update_ryte(bucket, attributeList, api_key, project):
-    query = f'from(bucket: "{bucket}")' \
-      '|> range(start: 0, stop: now())' \
-      '|> keep(columns: ["_time"])' \
-      '|> last(column: "_time")'
-    
-    tables = client.query_api().query(query=query)
-    #print(tables[0].records[0])
-    last_timestamp = tables[0].records[0]["_time"]
-    last_timestamp=str(last_timestamp)
-    #print(last_timestamp)
-
-    # Convert the last timestamp to a datetime object with timezone information
-    last_datetime = datetime.fromisoformat(last_timestamp).replace(tzinfo=pytz.UTC)
+def update_ryte(bucket, attributeList, api_key, project, field):
+    last_datetime = find_latest_data_point(bucket, field)
     current_datetime = datetime.now(timezone.utc)
     timedelta = current_datetime - last_datetime
     days_between = timedelta.days
-    #print(days_between)
+    print(days_between)
     extract_data_for_x_days(bucket, attributeList, days_between, api_key, project)
 
 
@@ -63,7 +52,7 @@ def extract_data_for_x_days(bucket, attributeList, days, api_key, project):
         date = datetime.now() - timedelta(days=1+i)
         date = date.strftime('%y%m%d')
         print(date)
-        extract_data(bucket, attributeList, date+"-2202", api_key, project)
+        extract_data(bucket, attributeList, date+"-2203", api_key, project)
 #create a function that gets data for x days
 def extract_data(bucket, attributeList, date, api_key, project):
     
@@ -160,7 +149,7 @@ def main():
             "speed_index"]
     #extract_data(attributeList, '230430-2203', "7df8cf7ef1981515ad93199d2cda8fed", "p9a6b2adea2a2853eadcbbd3fe6f20cd")
     #extract_data_for_x_days("Analytica", attributeList, 100, "7df8cf7ef1981515ad93199d2cda8fed", "p9a6b2adea2a2853eadcbbd3fe6f20cd")
-    update_ryte("Analytica", attributeList, "7df8cf7ef1981515ad93199d2cda8fed", "p9a6b2adea2a2853eadcbbd3fe6f20cd")
+    update_ryte("Analytica", attributeList, "7df8cf7ef1981515ad93199d2cda8fed", "p9a6b2adea2a2853eadcbbd3fe6f20cd", "count_links_outgoing")
 
 if __name__ == '__main__':
   main()

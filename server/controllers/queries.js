@@ -38,8 +38,17 @@ export const metricMean_bucket = async (req, res) => {
 
 const fluxQuery2= 'from(bucket: "Analytica") |> range(start: time(v:"2023-04-01T00:00:00Z"), stop: time(v:"2023-06-05T00:00:00Z"))|> filter(fn: (r) => r["_measurement"] == "https://analytica.de/de/")|> filter(fn: (r) => r["_field"] == "server_load_time")|> aggregateWindow(every: 10d, fn: mean, createEmpty: false)|> yield(name: "mean")'
 
+const myQuery = async () => {
+    for await (const {values, tableMeta} of queryApi.iterateRows(fluxQuery2)) {
+        const o = tableMeta.toObject(values)
+        console.log(o)
+    }
+  }
+  
+
+
 /** Execute a query and receive line table metadata and rows. */
-//myQuery()
+myQuery()
 
 
 

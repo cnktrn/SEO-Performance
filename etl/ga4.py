@@ -6,8 +6,7 @@ from google.analytics.data_v1beta.types import (Dimension, Metric, DateRange, Me
                                                FilterExpression, MetricAggregation, CohortSpec)
 from google.analytics.data_v1beta.types import RunReportRequest, RunRealtimeReportRequest
 from influxDB_write import write_to_influxdb, create_point, find_latest_data_point
-from urllib3.exceptions import ConnectTimeoutError
-import urllib3
+
 
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = './key/seo_api_key.json'
@@ -16,11 +15,11 @@ property_id = '329272465'
 
 
         
-def run_report(metricList, days, bucket):
+def run_report(metricList, days, bucket, property_id):
     """Runs a simple report on a Google Analytics 4 property."""
     # TODO(developer): Uncomment this variable and replace with your
     #  Google Analytics 4 property ID before running the sample.
-    property_id = "329272465"
+    property_id = property_id
 
     # Using a default constructor instructs the client to use the credentials
     # specified in GOOGLE_APPLICATION_CREDENTIALS environment variable.
@@ -53,13 +52,13 @@ def run_report(metricList, days, bucket):
                 print( url, row.metric_values[0].value)
 
 
-def updateGA4(metricList, bucket, field):
+def updateGA4(metricList, bucket, field, property_id):
     last_datetime = find_latest_data_point(bucket, field)
     current_datetime = datetime.now(timezone.utc)
     timedelta = current_datetime - last_datetime
     days_between = timedelta.days
     print(days_between)
-    run_report(metricList, days_between, bucket)
+    run_report(metricList, days_between, bucket, property_id)
 
 #run_report(["screenPageViewsPerUser", "activeUsers", "bounceRate", "screenPageViewsPerSession","totalUsers","sessions"], 31, "Analytica")
 #run_report(["sessions"], 7, "Mock2")
