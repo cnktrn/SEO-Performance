@@ -73,6 +73,7 @@ const CreateDashboard = () => {
         );
     }
 
+    // Logic that moves a KPI to the dashboard and deletes it in the list of available KPIs
     const addKPItoList = (e, kpi) => {
         e.preventDefault();
         const newKPIList = [...addedKPIs, kpi];
@@ -81,6 +82,7 @@ const CreateDashboard = () => {
         setAddedKPIs(newKPIList);
     }
 
+    // Logic that deletes a KPI from the dashboard and puts it in the list of available KPIs
     const deleteKPIfromDashboard = (e, kpi) => {
         e.preventDefault();
         const newKPIList = [...kpiList, kpi];
@@ -132,7 +134,7 @@ const CreateDashboard = () => {
                                 {kpi.kpiName}
                             </div>
                             <div>
-                            <button onClick={e => deleteKPIfromDashboard(e, kpi)}>–</button>
+                                <button onClick={e => deleteKPIfromDashboard(e, kpi)}>–</button>
                             </div>
                         </div>
                     )
