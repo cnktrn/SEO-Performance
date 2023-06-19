@@ -6,6 +6,8 @@ const Workspace = () => {
     const [dashboards, setDashboards] = useState([]);
     const [selectedDashboards, setSelectedDashboards] = useState([]);
 
+    const isDeleteButtonVisible = selectedDashboards.length > 0;
+
     const history = useHistory();
 
     useEffect(() => {
@@ -28,19 +30,23 @@ const Workspace = () => {
         setDashboards(jsonResponse);
     }
 
-    // Function that deletes a dashboard from the database
-    const deleteDashboard = async (dashboardID) => {
-        await fetch(
-            "http://localhost:5555/dashboards/" + dashboardID,
-            {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + window.localStorage.getItem("token"),
-                },
-            }
-        );
-        console.log("Deleted Dashboard");
+    // Function that deletes selected dashboards from the database
+    const deleteDashboards = async () => {
+        for (let i = 0; i < selectedDashboards.length; i++) {
+            const id = selectedDashboards[i];
+            await fetch(
+                "http://localhost:5555/dashboards/" + id,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + window.localStorage.getItem("token"),
+                    },
+                }
+            );
+            console.log("Deleted Dashboard: " + selectedDashboards[i]);
+        }
+        setSelectedDashboards([]);
         getDashboards();
     }
 
@@ -69,6 +75,7 @@ const Workspace = () => {
     return (
         <div>
             <div>
+                <button onClick={() => console.log(selectedDashboards)}>Click</button>
                 <div>
                     <h1>Dashboards</h1>
                     <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
@@ -86,6 +93,9 @@ const Workspace = () => {
                     </div>
                 </div>
             </div>
+            {isDeleteButtonVisible && (
+                <button onClick={() => deleteDashboards()}>Delete Selected</button>
+            )}
             {
                 dashboards.map(dashboard =>
                     <div key={dashboard._id}>
@@ -97,7 +107,6 @@ const Workspace = () => {
                         <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
                             {dashboard.dashboardName}
                         </button>
-                        <button onClick={e => deleteDashboard(dashboard._id)}>- Delete</button>
                     </div>
                 )
             }
