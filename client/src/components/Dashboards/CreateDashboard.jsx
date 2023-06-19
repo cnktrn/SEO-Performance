@@ -81,6 +81,14 @@ const CreateDashboard = () => {
         setAddedKPIs(newKPIList);
     }
 
+    const deleteKPIfromDashboard = (e, kpi) => {
+        e.preventDefault();
+        const newKPIList = [...kpiList, kpi];
+        const oldKPILost = addedKPIs.filter((item) => item._id !== kpi._id);
+        setKpiList(newKPIList);
+        setAddedKPIs(oldKPILost);
+    }
+
     return (
         <div>
             <h1>Create Dashboard</h1>
@@ -124,7 +132,7 @@ const CreateDashboard = () => {
                                 {kpi.kpiName}
                             </div>
                             <div>
-                                <button>-</button>
+                            <button onClick={e => deleteKPIfromDashboard(e, kpi)}>–</button>
                             </div>
                         </div>
                     )
