@@ -5,6 +5,7 @@ const Workspace = () => {
 
     const [dashboards, setDashboards] = useState([]);
     const [selectedDashboards, setSelectedDashboards] = useState([]);
+    const [sortOrder, setSortOrder] = useState({ attribute: 'dashboardName', ascending: true });
 
     const isDeleteButtonVisible = selectedDashboards.length > 0;
 
@@ -72,47 +73,79 @@ const Workspace = () => {
         }
     }
 
-    return (
-        <div>
-            <div>
-                <button onClick={() => console.log(selectedDashboards)}>Click</button>
-                <div>
-                    <h1>Dashboards</h1>
-                    <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
-                </div>
-                <div>
-                    <div>
-                        <input
-                            type="checkbox"
-                            checked={selectedDashboards.length === dashboards.length}
-                            onChange={handleSelectAll}
-                        />
-                        <p>Name</p>
-                        <p>Date added</p>
-                        <p>Fair</p>
-                    </div>
-                </div>
-            </div>
-            {isDeleteButtonVisible && (
-                <button onClick={() => deleteDashboards()}>Delete Selected</button>
-            )}
-            {
-                dashboards.map(dashboard =>
-                    <div key={dashboard._id}>
-                        <input
-                            type="checkbox"
-                            checked={selectedDashboards.includes(dashboard._id)}
-                            onChange={() => handleSelectedDashboards(dashboard._id)}
-                        />
-                        <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
-                            {dashboard.dashboardName}
-                        </button>
-                    </div>
-                )
-            }
-        </div>
-    )
+    const handleSort = (attribute) => {
+        let ascending = true;
 
-}
+        if (sortOrder.attribute === attribute) {
+            ascending = !sortOrder.ascending;
+        }
+
+        setSortOrder({ attribute, ascending });
+    }
+
+    const compareValues = (valueA, valueB) => {
+        // Handle undefined values
+        if (typeof valueA === 'undefined') return -1;
+        if (typeof valueB === 'undefined') return 1;
+
+        // Compare the values based on sort order and attribute type
+        if (sortOrder.ascending) {
+            return valueA.localeCompare(valueB);
+        } else {
+            return valueB.localeCompare(valueA);
+        }
+    };
+
+    const sortedDashboards = dashboards.sort((a, b) => {
+        const valueA = a[sortOrder.attribute];
+        const valueB = b[sortOrder.attribute];
+
+        return compareValues(valueA, valueB);
+    })
+
+    const renderEntries = () => {
+        return (
+            <div>
+                <div>
+                    <button onClick={() => console.log(selectedDashboards)}>Click</button>
+                    <div>
+                        <h1>Dashboards</h1>
+                        <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
+                    </div>
+                    <div>
+                        <div>
+                            <input
+                                type="checkbox"
+                                checked={selectedDashboards.length === dashboards.length}
+                                onChange={handleSelectAll}
+                            />
+                            <button onClick={() => handleSort('dashboardName')}>Name {sortOrder.attribute === 'dashboardName' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                            <button onClick={() => handleSort('creationDate')}>Date added {sortOrder.attribute === 'creationDate' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                            <button onClick={() => handleSort('dataSource')}>Fair {sortOrder.attribute === 'dataSource' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                        </div>
+                    </div>
+                </div>
+                {isDeleteButtonVisible && (
+                    <button onClick={() => deleteDashboards()}>Delete Selected</button>
+                )}
+                {
+                    sortedDashboards.map(dashboard =>
+                        <div key={dashboard._id}>
+                            <input
+                                type="checkbox"
+                                checked={selectedDashboards.includes(dashboard._id)}
+                                onChange={() => handleSelectedDashboards(dashboard._id)}
+                            />
+                            <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
+                                {dashboard.dashboardName}
+                            </button>
+                        </div>
+                    )
+                }
+            </div>
+        )
+    }
+    return <div>{renderEntries()}</div>;
+};
 
 export default Workspace;
