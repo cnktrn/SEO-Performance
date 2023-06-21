@@ -34,13 +34,15 @@ with open('data.csv', 'r') as file:
     for row in csv_reader:
         # Check if the entry in the first column is "GSC"
         if row[0] == "GSC":
-            #update_gsc(row[1], row[2], "impressions")
-            pass
+            update_gsc(row[1], row[2], "impressions")
+            print("updated GSC")
         if row[0] == "GA4":
             attributeList = ast.literal_eval(row[1])
-            #updateGA4(attributeList, row[2], "sessions", row[3])
+            updateGA4(attributeList, row[2], "sessions", row[3])
+            print("updated GA4")
         if row[0] == "Ryte":
             attributeList = ast.literal_eval(row[2])
             print(row[3])
             print(row[4])
             update_ryte(row[1], attributeList, "7df8cf7ef1981515ad93199d2cda8fed", "p9a6b2adea2a2853eadcbbd3fe6f20cd", "speed_index")
+            print("updated Ryte")
