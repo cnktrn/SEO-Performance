@@ -136,8 +136,11 @@ const Workspace = () => {
                                 checked={selectedDashboards.includes(dashboard._id)}
                                 onChange={() => handleSelectedDashboards(dashboard._id)}
                             />
+                            <p>{dashboard.dashboardName}</p>
+                            <p>{dashboard.creationDate}</p>
+                            <p>{dashboard.dataSource}</p>
                             <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
-                                {dashboard.dashboardName}
+                                Open
                             </button>
                         </div>
                     )
