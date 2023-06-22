@@ -10,7 +10,7 @@ export const getDashboards = async (req,res) => {
 }
 
 export const getDashboard = async (req, res) => {
-    const id = req.body.id;
+    const id = req.params.id;
     try {
         const dashboard = await Dashboard.findById(id);
         res.status(200).json(dashboard);
@@ -38,7 +38,7 @@ export const createDashboard = async (req,res) => {
 }
 
 export const updateDashboard = async (req, res) => {
-    const id = req.body.id;
+    const id = req.params.id;
     const dashboard = req.body;
     try {
         const curDash = await Dashboard.findById(id);
@@ -54,7 +54,7 @@ export const updateDashboard = async (req, res) => {
 }
 
 export const deleteDashboard = async (req, res) => {
-    const id = req.body.id;
+    const id = req.params.id;
     try {
         const dashboard = await Dashboard.findById(id);
         if (dashboard.creator === req.username) {
