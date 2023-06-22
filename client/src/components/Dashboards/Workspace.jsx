@@ -107,7 +107,6 @@ const Workspace = () => {
         return (
             <div>
                 <div>
-                    <button onClick={() => console.log(selectedDashboards)}>Click</button>
                     <div>
                         <h1>Dashboards</h1>
                         <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
@@ -121,7 +120,7 @@ const Workspace = () => {
                             />
                             <button onClick={() => handleSort('dashboardName')}>Name {sortOrder.attribute === 'dashboardName' && (sortOrder.ascending ? '▲' : '▼')}</button>
                             <button onClick={() => handleSort('creationDate')}>Date added {sortOrder.attribute === 'creationDate' && (sortOrder.ascending ? '▲' : '▼')}</button>
-                            <button onClick={() => handleSort('dataSource')}>Fair {sortOrder.attribute === 'dataSource' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                            <button onClick={() => handleSort('dataSource')}>Property(Events) {sortOrder.attribute === 'dataSource' && (sortOrder.ascending ? '▲' : '▼')}</button>
                         </div>
                     </div>
                 </div>
@@ -130,6 +129,7 @@ const Workspace = () => {
                 )}
                 {
                     sortedDashboards.map(dashboard =>
+                        // ####### Use HTML Grid to display list items in a table --> Better alignments
                         <div key={dashboard._id}>
                             <input
                                 type="checkbox"
