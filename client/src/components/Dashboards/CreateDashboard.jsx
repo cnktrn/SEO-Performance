@@ -77,7 +77,7 @@ const CreateDashboard = () => {
     const addKPItoList = (e, kpi) => {
         e.preventDefault();
         const newKPIList = [...addedKPIs, kpi];
-        const oldKPIList = addedKPIs.filter((item) => item._id !== kpi._id)
+        const oldKPIList = kpiList.filter((item) => item._id !== kpi._id)
         setKpiList(oldKPIList);
         setAddedKPIs(newKPIList);
     }
@@ -96,6 +96,7 @@ const CreateDashboard = () => {
             <h1>Create Dashboard</h1>
             <div className="left-column">
                 <button onClick={() => console.log(addedKPIs)}>CLICK</button>
+                <button onClick={() => console.log(kpiList)}>CLICK 2</button>
                 <h3>Name</h3>
                 <input
                     value={dashboardName}
