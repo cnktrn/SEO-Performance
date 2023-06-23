@@ -136,34 +136,36 @@ const Workspace = () => {
                 {isDeleteButtonVisible && (
                     <button onClick={() => deleteDashboards()}>Delete Selected</button>
                 )}
-                {
-                    sortedDashboards.map(dashboard =>
-                        // ####### Use HTML Grid to display list items in a table --> Better alignments
-                        <div className="workspace-table-head flex" key={dashboard._id}>
-                            <div className="workspace-checkbox flex">
-                                <input
-                                    type="checkbox"
-                                    checked={selectedDashboards.includes(dashboard._id)}
-                                    onChange={() => handleSelectedDashboards(dashboard._id)}
-                                />
+                <div className="dashboard-list-container">
+                    {
+                        sortedDashboards.map(dashboard =>
+                            // ####### Use HTML Grid to display list items in a table --> Better alignments
+                            <div className="workspace-table-head dashboard-list-item flex" key={dashboard._id}>
+                                <div className="workspace-checkbox flex">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedDashboards.includes(dashboard._id)}
+                                        onChange={() => handleSelectedDashboards(dashboard._id)}
+                                    />
+                                </div>
+                                <div className="workspace-dashboard-name flex">
+                                    {dashboard.dashboardName}
+                                </div>
+                                <div className="workspace-creation-date flex">
+                                    {dashboard.creationDate}
+                                </div>
+                                <div className="workspace-property-name flex">
+                                    {dashboard.dataSource}
+                                </div>
+                                <div className="workspace-open-button flex">
+                                    <button className="menu-button" onClick={() => history.push("./dashboards/" + dashboard._id)}>
+                                        Open
+                                    </button>
+                                </div>
                             </div>
-                            <div className="workspace-dashboard-name flex">
-                                {dashboard.dashboardName}
-                            </div>
-                            <div className="workspace-creation-date flex">
-                                {dashboard.creationDate}
-                            </div>
-                            <div className="workspace-property-name flex">
-                                {dashboard.dataSource}
-                            </div>
-                            <div className="workspace-open-button flex">
-                                <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
-                                    Open
-                                </button>
-                            </div>
-                        </div>
-                    )
-                }
+                        )
+                    }
+                </div>
             </div>
         )
     }
