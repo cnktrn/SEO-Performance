@@ -4,13 +4,13 @@
 
 .page-body {
     width: 1120px;
+    margin: 0 20px;
 }
 
 .page-header-container {
     flex-direction: column;
     height: 200px;
     justify-content: space-between;
-    background-color: blueviolet;
 }
 
 .page-header-content {
@@ -75,10 +75,24 @@
     margin-right: 20px;
 }
 
-.menu-button:hover {
+.menu-button:hover, .icon-button:hover {
     border: 0.5px solid var(--background-2, #C7C7C7);
     background: #EFEFEF;
     /* SHDW 1 */
     box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.18);
     cursor: pointer;
+}
+
+.icon-button {
+    display: inline-flex;
+    padding: 6px 14px;
+    max-height: 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    border: 0.5px solid var(--background-2, #C7C7C7);
+    background: var(--white, #FFF);
+    /* SHDW 1 */
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.18);
 }

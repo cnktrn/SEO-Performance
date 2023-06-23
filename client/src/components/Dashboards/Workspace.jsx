@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import '../../styling/gstyles.css';
+import plus from '../../resources/plus.svg'
 
 const Workspace = () => {
 
@@ -110,7 +111,10 @@ const Workspace = () => {
                 <div className="page-header-container flex">
                     <div className="page-header-content flex">
                         <h1>Dashboards</h1>
-                        <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
+                        <button className="icon-button" onClick={() => history.push("/CreateDashboard/")}>
+                            <img src={plus} alt="" />
+                            <p>New Dashboard</p>
+                        </button>
                     </div>
                     <div className="workspace-table-head flex">
                         <div className="workspace-checkbox flex">
@@ -121,13 +125,13 @@ const Workspace = () => {
                             />
                         </div>
                         <div className="workspace-dashboard-name">
-                            <button onClick={() => handleSort('dashboardName')}>Name {sortOrder.attribute === 'dashboardName' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                            <button onClick={() => handleSort('dashboardName')}>Name {sortOrder.attribute === 'dashboardName' && (sortOrder.ascending ? '▼' : '▲')}</button>
                         </div>
                         <div className="workspace-creation-date">
-                            <button onClick={() => handleSort('creationDate')}>Date added {sortOrder.attribute === 'creationDate' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                            <button onClick={() => handleSort('creationDate')}>Date added {sortOrder.attribute === 'creationDate' && (sortOrder.ascending ? '▼' : '▲')}</button>
                         </div>
                         <div className="workspace-property-name">
-                            <button onClick={() => handleSort('dataSource')}>Property(Events) {sortOrder.attribute === 'dataSource' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                            <button onClick={() => handleSort('dataSource')}>Property(Events) {sortOrder.attribute === 'dataSource' && (sortOrder.ascending ? '▼' : '▲')}</button>
                         </div>
                         <div className="workspace-open-button">
                         </div>
