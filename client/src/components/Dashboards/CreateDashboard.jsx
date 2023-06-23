@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const CreateDashboard = () => {
 
@@ -91,6 +92,15 @@ const CreateDashboard = () => {
         setAddedKPIs(oldKPILost);
     }
 
+    const handleDragEnd = (result) => {
+        if (!result.destination) return;
+
+        const items = Array.from(addedKPIs);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+        setAddedKPIs(items);
+    }
+
     return (
         <div>
             <h1>Create Dashboard</h1>
@@ -128,18 +138,40 @@ const CreateDashboard = () => {
                     </select>
                 </div>
                 <h3>Your Dashboard</h3>
-                {
+                {/* {
                     addedKPIs.map(kpi =>
                         <div key={kpi._id}>
                             <div>
                                 {kpi.kpiName}
                             </div>
                             <div>
-                                <button onClick={e => deleteKPIfromDashboard(e, kpi)}>–</button>
                             </div>
                         </div>
                     )
-                }
+                } */}
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="addedKPIs">
+                        {(provided) => (
+                            <ul {...provided.droppableProps} ref={provided.innerRef}>
+                                {addedKPIs.map((kpi, index) => (
+                                    <Draggable key={kpi._id} draggableId={kpi._id} index={index}>
+                                        {(provided) => (
+                                            <li
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                {kpi.kpiName}
+                                                <button onClick={e => deleteKPIfromDashboard(e, kpi)}>–</button>
+                                            </li>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </ul>
+                        )}
+                    </Droppable>
+                </DragDropContext>
                 <button onClick={e => createDashboard(e)}>Save Dashboard</button>
             </div>
         </div>
