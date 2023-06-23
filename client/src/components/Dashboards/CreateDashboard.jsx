@@ -138,17 +138,6 @@ const CreateDashboard = () => {
                     </select>
                 </div>
                 <h3>Your Dashboard</h3>
-                {/* {
-                    addedKPIs.map(kpi =>
-                        <div key={kpi._id}>
-                            <div>
-                                {kpi.kpiName}
-                            </div>
-                            <div>
-                            </div>
-                        </div>
-                    )
-                } */}
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="addedKPIs">
                         {(provided) => (
