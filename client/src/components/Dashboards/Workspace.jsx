@@ -107,7 +107,7 @@ const Workspace = () => {
         return (
             <div>
                 <div>
-                    <div>
+                    <div className="page-header">
                         <h1>Dashboards</h1>
                         <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
                     </div>
