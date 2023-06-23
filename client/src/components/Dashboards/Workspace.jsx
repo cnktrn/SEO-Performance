@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import '../../styling/gstyles.css';
 
 const Workspace = () => {
 
@@ -105,22 +106,30 @@ const Workspace = () => {
 
     const renderEntries = () => {
         return (
-            <div>
-                <div>
-                    <div className="page-header">
+            <div className="page-body">
+                <div className="page-header-container flex">
+                    <div className="page-header-content flex">
                         <h1>Dashboards</h1>
                         <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
                     </div>
-                    <div>
-                        <div>
+                    <div className="workspace-table-head flex">
+                        <div className="workspace-checkbox flex">
                             <input
                                 type="checkbox"
                                 checked={selectedDashboards.length === dashboards.length}
                                 onChange={handleSelectAll}
                             />
+                        </div>
+                        <div className="workspace-dashboard-name">
                             <button onClick={() => handleSort('dashboardName')}>Name {sortOrder.attribute === 'dashboardName' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                        </div>
+                        <div className="workspace-creation-date">
                             <button onClick={() => handleSort('creationDate')}>Date added {sortOrder.attribute === 'creationDate' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                        </div>
+                        <div className="workspace-property-name">
                             <button onClick={() => handleSort('dataSource')}>Property(Events) {sortOrder.attribute === 'dataSource' && (sortOrder.ascending ? '▲' : '▼')}</button>
+                        </div>
+                        <div className="workspace-open-button">
                         </div>
                     </div>
                 </div>
@@ -130,18 +139,28 @@ const Workspace = () => {
                 {
                     sortedDashboards.map(dashboard =>
                         // ####### Use HTML Grid to display list items in a table --> Better alignments
-                        <div key={dashboard._id}>
-                            <input
-                                type="checkbox"
-                                checked={selectedDashboards.includes(dashboard._id)}
-                                onChange={() => handleSelectedDashboards(dashboard._id)}
-                            />
-                            <p>{dashboard.dashboardName}</p>
-                            <p>{dashboard.creationDate}</p>
-                            <p>{dashboard.dataSource}</p>
-                            <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
-                                Open
-                            </button>
+                        <div className="workspace-table-head flex" key={dashboard._id}>
+                            <div className="workspace-checkbox flex">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedDashboards.includes(dashboard._id)}
+                                    onChange={() => handleSelectedDashboards(dashboard._id)}
+                                />
+                            </div>
+                            <div className="workspace-dashboard-name flex">
+                                {dashboard.dashboardName}
+                            </div>
+                            <div className="workspace-creation-date flex">
+                                {dashboard.creationDate}
+                            </div>
+                            <div className="workspace-property-name flex">
+                                {dashboard.dataSource}
+                            </div>
+                            <div className="workspace-open-button flex">
+                                <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
+                                    Open
+                                </button>
+                            </div>
                         </div>
                     )
                 }

@@ -1,51 +1,45 @@
-body {
-    margin: 0; /* Remove default body margin */
+.flex {
+    display: flex;
 }
 
-.login-screen {
-    display: flex;
+.page-body {
+    width: 1120px;
+}
+
+.page-header-container {
     flex-direction: column;
-    align-items: center;
+    height: 200px;
+    justify-content: space-between;
+    background-color: blueviolet;
+}
+
+.page-header-content {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.workspace-table-head {
+    flex-direction: row;
+    width: 100%;
+}
+
+.workspace-checkbox {
+    width: 5%;
     justify-content: center;
-    height: 80vh;
-    font-family: Arial, sans-serif;
 }
 
-
-.header-bar {
-    background-color: #6a91ce;
-    height: 75px;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    margin: 0;
+.workspace-dashboard-name{
+    width: 30%;
 }
 
-.logo {
-    height: 100px;
-    margin-right: 10px;
-    margin-bottom: 10px;
+.workspace-creation-date {
+    width: 15%;
 }
 
-.button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+.workspace-property-name {
+    width: 20%;
 }
 
-.login-button,
-.signup-button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #e2e2e2;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.login-button:hover,
-.signup-button:hover {
-    background-color: #ccc;
+.workspace-open-button {
+    width: 30%;
 }
