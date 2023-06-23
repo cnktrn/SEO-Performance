@@ -24,8 +24,8 @@ const fluxQuery = 'from(bucket:"Analytica") |> range(start: 0) |> filter(fn: (r)
 const flux= 'from(bucket: "Analytica")|> range(start: 0)|> filter(fn: (r) => r["_measurement"] != "_start" and r["_measurement"] != "_stop")|> filter(fn: (r) => r["_field"] == "server_load_time")|> mean()'
 
 export const metricMean_bucket = async (req, res) => {
-    const bucket_name =  req.body.bucket_name;
-    const metric_name =  req.body.metric_name;
+    const bucket_name =  req.query.bucket_name;
+    const metric_name =  req.query.metric_name;
     const query=  `from(bucket: "${bucket_name}")|> range(start: 0)|> filter(fn: (r) => r["_measurement"] != "_start" and r["_measurement"] != "_stop")|> filter(fn: (r) => r["_field"] == "${metric_name}")|> group() |> mean()`
     console.log(query)
 
@@ -40,8 +40,8 @@ export const metricMean_pages_bucket = async (req, res) => {
 
   let list = [];
 
-  const bucket_name =  req.body.bucket_name;
-  const metric_name =  req.body.metric_name;
+  const bucket_name =  req.query.bucket_name;
+  const metric_name =  req.query.metric_name;
 
   const query=  `from(bucket: "${bucket_name}")
   |> range(start: 0)
@@ -59,11 +59,11 @@ res.status(200).json(list)
 }
 
 export const metricMean_page_time = async (req, res) => {
-  const bucket_name =  req.body.bucket_name;
-  const metric_name =  req.body.metric_name;
-  const time_start = req.body.time_start;
-  const time_end = req.body.time_end;
-  const web_page = req.body.web_page;
+  const bucket_name =  req.query.bucket_name;
+  const metric_name =  req.query.metric_name;
+  const time_start = req.query.time_start;
+  const time_end = req.query.time_end;
+  const web_page = req.query.web_page;
 
   const query=  `from(bucket: "${bucket_name}")
   |> range(start: time(v:"${time_start}"), stop: time(v:"${time_end}"))
@@ -87,11 +87,11 @@ export const metricOverall_page_time = async (req, res) => {
 
   let list = [];
 
-  const bucket_name =  req.body.bucket_name;
-  const metric_name =  req.body.metric_name;
-  const time_start = req.body.time_start;
-  const time_end = req.body.time_end;
-  const web_page = req.body.web_page;
+  const bucket_name =  req.query.bucket_name;
+  const metric_name =  req.query.metric_name;
+  const time_start = req.query.time_start;
+  const time_end = req.query.time_end;
+  const web_page = req.query.web_page;
 
   const query=  `from(bucket: "${bucket_name}")
   |> range(start: time(v:"${time_start}"), stop: time(v:"${time_end}"))
@@ -106,6 +106,22 @@ export const metricOverall_page_time = async (req, res) => {
 }
 
 res.status(200).json(list);
+}
+
+export const available_events = async (req, res) => {
+
+  let list = [];
+
+  const query=  `buckets()`
+  //console.log(query)
+
+  for await (const {values, tableMeta} of queryApi.iterateRows(query)) {
+  
+  let obj = tableMeta.toObject(values)
+  console.log(obj.name)
+  list.push(obj.name);
+}
+res.status(200).json(list)
 }
 
 /** Execute a query and receive line table metadata and rows. */
