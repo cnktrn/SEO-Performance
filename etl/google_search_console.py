@@ -46,6 +46,12 @@ def query(client: Resource, payload: Dict[str, str], domain) -> Dict[str, any]:
 
 def create_gsc(start_date, domain, bucket):
     MAX_ROWS = 1000 #25000 1000
+    # authenticate session
+    service = auth_using_key_file(key_filepath=KEY_FILE)
+
+    # verify your service account has permissions to your domain
+    service.sites().list().execute()
+
     dimensions = ["query","page", "date"]
     end_date = datetime.now().strftime("%Y-%m-%d")
     response_rows = []
@@ -127,4 +133,4 @@ def update_gsc(domain, bucket, field):
 
 
 #update_gsc("sc-domain:analytica.de", "Analytica", "impressions")
-#create_gsc("2022-01-01", "sc-domain:analytica.de", "Analytica")
+#create_gsc("2022-01-01", "sc-domain:analytica.de", "Demo")

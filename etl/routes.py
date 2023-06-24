@@ -16,7 +16,7 @@ def create_ga4():
     metricList = data.get('metricList')
     bucket = data.get('bucket')
     property_id = data.get('property_id')
-    #run_report(metricList, days, bucket, property_id)
+    run_report(metricList, days, bucket, property_id)
 
     list = ["GA4",metricList,bucket,property_id]
     
@@ -34,7 +34,7 @@ def create_GSC():
     date = data.get('date')
     bucket = data.get('bucket')
     domain = data.get('domain')
-    #create_gsc(domain, bucket, date)
+    create_gsc(date, domain, bucket)
     list = ["GSC","sc-domain:"+domain,bucket]
 
    # Create a file object for this file
