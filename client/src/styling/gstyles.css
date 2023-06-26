@@ -5,10 +5,26 @@
 .page-body {
     width: 1120px;
     margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.col-md-6 {
+    width: 50%;
+}
+
+.col-md-12 {
+    width: 100%;
 }
 
 .page-header-container {
-    flex-direction: column;
+    flex-direction: column; 
     height: 200px;
     justify-content: space-between;
 }

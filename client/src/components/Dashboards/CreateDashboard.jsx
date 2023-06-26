@@ -102,66 +102,76 @@ const CreateDashboard = () => {
     }
 
     return (
-        <div>
-            <h1>Create Dashboard</h1>
-            <div className="left-column">
-                <button onClick={() => console.log(addedKPIs)}>CLICK</button>
-                <button onClick={() => console.log(kpiList)}>CLICK 2</button>
-                <h3>Name</h3>
-                <input
-                    value={dashboardName}
-                    type={"text"}
-                    onChange={e => setDashboardName(e.target.value)}
-                />
-                <h3>Available SEO Metrics</h3>
-                {
-                    kpiList.map(kpi =>
-                        <div key={kpi._id}>
-                            <div>
-                                {kpi.kpiName}
-                            </div>
-                            <div>
-                                <button onClick={e => addKPItoList(e, kpi)}>+</button>
-                            </div>
-                        </div>
-                    )
-                }
-            </div>
-            <div className="right-column">
-                <h3>Data Source</h3>
-                <div className="dropdown-menu">
-                    <select value={selectedOption} onChange={handleOptionChange}>
-                        <option value="">Select an option</option>
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
-                    </select>
+        <div className="page-body">
+            <div className="col-md-12 page-header-container">
+                <div className="page-header-content flex">
+                    <h1>Select Metrics for your Dashboard</h1>
+                    <button className="icon-button" onClick={() => history.push("/CreateDashboard/")}>
+                        <img src="" alt="" />
+                        <p>Save Dashboard</p>
+                    </button>
                 </div>
-                <h3>Your Dashboard</h3>
-                <DragDropContext onDragEnd={handleDragEnd}>
-                    <Droppable droppableId="addedKPIs">
-                        {(provided) => (
-                            <ul {...provided.droppableProps} ref={provided.innerRef}>
-                                {addedKPIs.map((kpi, index) => (
-                                    <Draggable key={kpi._id} draggableId={kpi._id} index={index}>
-                                        {(provided) => (
-                                            <li
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                {kpi.kpiName}
-                                                <button onClick={e => deleteKPIfromDashboard(e, kpi)}>–</button>
-                                            </li>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </ul>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-                <button onClick={e => createDashboard(e)}>Save Dashboard</button>
+            </div>
+            <div className="grid-row">
+                <div className="col-md-6">
+                    <button onClick={() => console.log(addedKPIs)}>CLICK</button>
+                    <button onClick={() => console.log(kpiList)}>CLICK 2</button>
+                    <h3>Name</h3>
+                    <input
+                        value={dashboardName}
+                        type={"text"}
+                        onChange={e => setDashboardName(e.target.value)}
+                    />
+                    <h3>Available SEO Metrics</h3>
+                    {
+                        kpiList.map(kpi =>
+                            <div key={kpi._id}>
+                                <div>
+                                    {kpi.kpiName}
+                                </div>
+                                <div>
+                                    <button onClick={e => addKPItoList(e, kpi)}>+</button>
+                                </div>
+                            </div>
+                        )
+                    }
+                </div>
+                <div className="col-md-6">
+                    <h3>Data Source</h3>
+                    <div className="dropdown-menu">
+                        <select value={selectedOption} onChange={handleOptionChange}>
+                            <option value="">Select an option</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </select>
+                    </div>
+                    <h3>Your Dashboard</h3>
+                    <DragDropContext onDragEnd={handleDragEnd}>
+                        <Droppable droppableId="addedKPIs">
+                            {(provided) => (
+                                <ul {...provided.droppableProps} ref={provided.innerRef}>
+                                    {addedKPIs.map((kpi, index) => (
+                                        <Draggable key={kpi._id} draggableId={kpi._id} index={index}>
+                                            {(provided) => (
+                                                <li
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    {kpi.kpiName}
+                                                    <button onClick={e => deleteKPIfromDashboard(e, kpi)}>–</button>
+                                                </li>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </ul>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                    <button onClick={e => createDashboard(e)}>Save Dashboard</button>
+                </div>
             </div>
         </div>
     )
