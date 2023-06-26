@@ -9,6 +9,7 @@ const CreateDashboard = () => {
     const [dashboardName, setDashboardName] = useState("");
     const [addedKPIs, setAddedKPIs] = useState([]);
     const [selectedOption, setSelectedOption] = useState('');
+    const [dataSource, setDataSource] = ("");
 
     const { id } = useParams();
 
@@ -121,9 +122,7 @@ const CreateDashboard = () => {
                 <div className="dropdown-menu">
                     <select value={selectedOption} onChange={handleOptionChange}>
                         <option value="">Select an option</option>
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
+                        {}
                     </select>
                 </div>
                 <h3>Your Dashboard</h3>
