@@ -8,7 +8,7 @@ const CreateDashboard = () => {
     const [dashboard, setDashboard] = useState();
     const [dashboardName, setDashboardName] = useState("");
     const [addedKPIs, setAddedKPIs] = useState([]);
-    const [selectedOption, setSelectedOption] = useState('');
+    const [dataSource, setDataSource] = useState("");
 
     const { id } = useParams();
 
@@ -19,7 +19,7 @@ const CreateDashboard = () => {
     }, []);
 
     const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
+        setDataSource(event.target.value);
     };
 
     const getDashboard = async () => {
@@ -119,11 +119,9 @@ const CreateDashboard = () => {
             <div className="right-column">
                 <h3>Data Source</h3>
                 <div className="dropdown-menu">
-                    <select value={selectedOption} onChange={handleOptionChange}>
+                    <select value={dataSource} onChange={handleOptionChange}>
                         <option value="">Select an option</option>
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
+                        {}
                     </select>
                 </div>
                 <h3>Your Dashboard</h3>
