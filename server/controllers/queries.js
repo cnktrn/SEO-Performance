@@ -24,8 +24,8 @@ const fluxQuery = 'from(bucket:"Analytica") |> range(start: 0) |> filter(fn: (r)
 const flux= 'from(bucket: "Analytica")|> range(start: 0)|> filter(fn: (r) => r["_measurement"] != "_start" and r["_measurement"] != "_stop")|> filter(fn: (r) => r["_field"] == "server_load_time")|> mean()'
 
 export const metricMean_bucket = async (req, res) => {
-    const bucket_name =  req.query.bucket_name;
-    const metric_name =  req.query.metric_name;
+    const bucket_name = req.query.bucket_name;
+    const metric_name = req.query.metric_name;
     const query=  `from(bucket: "${bucket_name}")|> range(start: 0)|> filter(fn: (r) => r["_measurement"] != "_start" and r["_measurement"] != "_stop")|> filter(fn: (r) => r["_field"] == "${metric_name}")|> group() |> mean()`
     console.log(query)
 
@@ -108,10 +108,11 @@ export const metricOverall_page_time = async (req, res) => {
 res.status(200).json(list);
 }
 
+
 export const available_events = async (req, res) => {
 
   let list = [];
-
+  
   const query=  `buckets()`
   //console.log(query)
 
@@ -124,8 +125,47 @@ export const available_events = async (req, res) => {
 res.status(200).json(list)
 }
 
+let subpages = [];
+
+export const available_subpages = async (req, res) => {
+
+  let list = [];
+  const bucket_name =  req.query.bucket_name;
+  const query=  `import "influxdata/influxdb/schema" schema.measurements(bucket: "${bucket_name}")`
+  //console.log(query)
+
+  for await (const {values, tableMeta} of queryApi.iterateRows(query)) {
+  
+  let obj = tableMeta.toObject(values)
+  console.log(obj.name)
+  list.push(obj._value);
+  subpages.push(obj._value);
+}
+res.status(200).json(list)
+}
+
+export const metricSum_bucket_time = async (req, res) => {
+  const bucket_name =  req.query.bucket_name;
+  const metric_name =  req.query.metric_name;
+  const time_start = req.query.time_start;
+  const time_end = req.query.time_end;
+
+  let list = [];
+
+  const query=  `from(bucket: "${bucket_name}")
+  |> range(start: time(v:"${time_start}"), stop: time(v:"${time_end}"))
+  |> filter(fn: (r) => r["_field"] == "${metric_name}")
+  |> aggregateWindow(every: 1d, fn: sum, createEmpty: false)
+  |> group(bucket)
+  |> sum()`
+  console.log(query)
+
+  for await (const {values, tableMeta} of queryApi.iterateRows(query)) {
+    list.push(tableMeta.toObject(values));
+  }
+  res.status(200).json(list)
+  console.log(list);
+}
+
 /** Execute a query and receive line table metadata and rows. */
 //myQuery()
-
-
-

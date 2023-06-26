@@ -37,3 +37,13 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
 
 mongoose.set("returnOriginal", false);
 mongoose.set("strictQuery", true);
+
+/*app.get("/kpis", async (req, res) => {
+    try {
+      const kpis = await KPI.find();
+      res.json(kpis);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });*/
