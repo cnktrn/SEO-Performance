@@ -8,12 +8,9 @@
     "@testing-library/user-event": "^13.5.0",
     "chart.js": "^4.3.0",
     "react": "^18.2.0",
-<<<<<<< HEAD
     "react-beautiful-dnd": "^13.1.1",
-=======
     "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^4.14.1",
->>>>>>> c3bdfa85055f5e349d9416c120b4e2b65cc0f01d
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",

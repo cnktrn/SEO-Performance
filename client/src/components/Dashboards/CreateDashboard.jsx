@@ -103,7 +103,6 @@ const CreateDashboard = () => {
     }
 
     return (
-<<<<<<< HEAD
         <div className="page-body">
             <div className="col-md-12 page-header-container">
                 <div className="page-header-content flex">
@@ -115,39 +114,6 @@ const CreateDashboard = () => {
                         <img src="" alt="" />
                         <p>Save Dashboard</p>
                     </button>
-=======
-        <div>
-            <h1>Create Dashboard</h1>
-            <div className="left-column">
-                <button onClick={() => console.log(addedKPIs)}>CLICK</button>
-                <h3>Name</h3>
-                <input
-                    value={dashboardName}
-                    type={"text"}
-                    onChange={e => setDashboardName(e.target.value)}
-                />
-                <h3>Available SEO Metrics</h3>
-                {
-                    kpiList.map(kpi =>
-                        <div key={kpi._id}>
-                            <div>
-                                {kpi.kpiName}
-                            </div>
-                            <div>
-                                <button onClick={e => addKPItoList(e, kpi)}>+</button>
-                            </div>
-                        </div>
-                    )
-                }
-            </div>
-            <div className="right-column">
-                <h3>Data Source</h3>
-                <div className="dropdown-menu">
-                    <select value={selectedOption} onChange={handleOptionChange}>
-                        <option value="">Select an option</option>
-                        {}
-                    </select>
->>>>>>> c3bdfa85055f5e349d9416c120b4e2b65cc0f01d
                 </div>
             </div>
             <div className="grid-row">
