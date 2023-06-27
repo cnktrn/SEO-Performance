@@ -106,7 +106,10 @@ const CreateDashboard = () => {
             <div className="col-md-12 page-header-container">
                 <div className="page-header-content flex">
                     <h1>Select Metrics for your Dashboard</h1>
-                    <button className="icon-button" onClick={() => history.push("/CreateDashboard/")}>
+                    <button className="icon-button" onClick={e => 
+                        createDashboard(e)
+                        // history.push(e"/CreateDashboard/")
+                    }>
                         <img src="" alt="" />
                         <p>Save Dashboard</p>
                     </button>
@@ -170,7 +173,6 @@ const CreateDashboard = () => {
                             )}
                         </Droppable>
                     </DragDropContext>
-                    <button onClick={e => createDashboard(e)}>Save Dashboard</button>
                 </div>
             </div>
         </div>
