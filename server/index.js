@@ -6,6 +6,7 @@ import cors from "cors";
 import usersRouter from "./routes/users.js";
 import dashboardsRouter from "./routes/dashboards.js";
 import kpisRouter from "./routes/kpis.js";
+import querisRouter from "./routes/queries.js";
 
 const app = express();
 
@@ -16,11 +17,13 @@ const PORT = 5555;
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 app.use(cors());
 
 app.use("/users", usersRouter)
 app.use("/dashboards", dashboardsRouter)
 app.use("/kpis", kpisRouter)
+app.use("/queries", querisRouter)
 
 // connect to mongodb using a connection string
 const CONNECTION_URL = "mongodb+srv://max:max123@di.6jqtvsa.mongodb.net/seodashboard?retryWrites=true&w=majority";
@@ -34,3 +37,13 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
 
 mongoose.set("returnOriginal", false);
 mongoose.set("strictQuery", true);
+
+/*app.get("/kpis", async (req, res) => {
+    try {
+      const kpis = await KPI.find();
+      res.json(kpis);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });*/
