@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import '../../styling/gstyles.css';
+import plus from '../../resources/plus.svg'
 
 const Workspace = () => {
 
     const [dashboards, setDashboards] = useState([]);
     const [selectedDashboards, setSelectedDashboards] = useState([]);
+    const [sortOrder, setSortOrder] = useState({ attribute: 'dashboardName', ascending: true });
 
     const isDeleteButtonVisible = selectedDashboards.length > 0;
 
@@ -72,47 +75,105 @@ const Workspace = () => {
         }
     }
 
-    return (
-        <div>
-            <div>
-                <button onClick={() => console.log(selectedDashboards)}>Click</button>
-                <div>
-                    <h1>Dashboards</h1>
-                    <button onClick={() => history.push("/CreateDashboard/")}>New Dashboard</button>
-                </div>
-                <div>
-                    <div>
-                        <input
-                            type="checkbox"
-                            checked={selectedDashboards.length === dashboards.length}
-                            onChange={handleSelectAll}
-                        />
-                        <p>Name</p>
-                        <p>Date added</p>
-                        <p>Fair</p>
-                    </div>
-                </div>
-            </div>
-            {isDeleteButtonVisible && (
-                <button onClick={() => deleteDashboards()}>Delete Selected</button>
-            )}
-            {
-                dashboards.map(dashboard =>
-                    <div key={dashboard._id}>
-                        <input
-                            type="checkbox"
-                            checked={selectedDashboards.includes(dashboard._id)}
-                            onChange={() => handleSelectedDashboards(dashboard._id)}
-                        />
-                        <button onClick={() => history.push("./dashboards/" + dashboard._id)}>
-                            {dashboard.dashboardName}
+    const handleSort = (attribute) => {
+        let ascending = true;
+
+        if (sortOrder.attribute === attribute) {
+            ascending = !sortOrder.ascending;
+        }
+
+        setSortOrder({ attribute, ascending });
+    }
+
+    const compareValues = (valueA, valueB) => {
+        // Handle undefined values
+        if (typeof valueA === 'undefined') return -1;
+        if (typeof valueB === 'undefined') return 1;
+
+        // Compare the values based on sort order and attribute type
+        if (sortOrder.ascending) {
+            return valueA.localeCompare(valueB);
+        } else {
+            return valueB.localeCompare(valueA);
+        }
+    };
+
+    const sortedDashboards = dashboards.sort((a, b) => {
+        const valueA = a[sortOrder.attribute];
+        const valueB = b[sortOrder.attribute];
+
+        return compareValues(valueA, valueB);
+    })
+
+    const renderEntries = () => {
+        return (
+            <div className="page-body">
+                <div className="page-header-container flex">
+                    <div className="page-header-content flex">
+                        <h1>Dashboards</h1>
+                        <button className="icon-button" onClick={() => history.push("/CreateDashboard/")}>
+                            <img src={plus} alt="" />
+                            <p>New Dashboard</p>
                         </button>
                     </div>
-                )
-            }
-        </div>
-    )
-
-}
+                    <div className="workspace-table-head flex">
+                        <div className="workspace-checkbox flex">
+                            <input
+                                type="checkbox"
+                                checked={selectedDashboards.length === dashboards.length}
+                                onChange={handleSelectAll}
+                            />
+                        </div>
+                        <div className="workspace-dashboard-name">
+                            <button onClick={() => handleSort('dashboardName')}>Name {sortOrder.attribute === 'dashboardName' && (sortOrder.ascending ? '▼' : '▲')}</button>
+                        </div>
+                        <div className="workspace-creation-date">
+                            <button onClick={() => handleSort('creationDate')}>Date added {sortOrder.attribute === 'creationDate' && (sortOrder.ascending ? '▼' : '▲')}</button>
+                        </div>
+                        <div className="workspace-property-name">
+                            <button onClick={() => handleSort('dataSource')}>Property(Events) {sortOrder.attribute === 'dataSource' && (sortOrder.ascending ? '▼' : '▲')}</button>
+                        </div>
+                        <div className="workspace-open-button">
+                        </div>
+                    </div>
+                </div>
+                {isDeleteButtonVisible && (
+                    <button onClick={() => deleteDashboards()}>Delete Selected</button>
+                )}
+                <div className="dashboard-list-container">
+                    {
+                        sortedDashboards.map(dashboard =>
+                            // ####### Use HTML Grid to display list items in a table --> Better alignments
+                            <div className="workspace-table-head dashboard-list-item flex" key={dashboard._id}>
+                                <div className="workspace-checkbox flex">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedDashboards.includes(dashboard._id)}
+                                        onChange={() => handleSelectedDashboards(dashboard._id)}
+                                    />
+                                </div>
+                                <div className="workspace-dashboard-name flex">
+                                    {dashboard.dashboardName}
+                                </div>
+                                <div className="workspace-creation-date flex">
+                                    {dashboard.creationDate}
+                                </div>
+                                <div className="workspace-property-name flex">
+                                    {dashboard.dataSource}
+                                </div>
+                                <div className="workspace-open-button flex">
+                                    <button className="menu-button" onClick={() => history.push("./dashboards/" + dashboard._id)}>
+                                        Open
+                                    </button>
+                                </div>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+        )
+    }
+    return <div>{renderEntries()}</div>;
+};
 
 export default Workspace;

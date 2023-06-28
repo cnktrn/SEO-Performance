@@ -1,0 +1,114 @@
+.flex {
+    display: flex;
+}
+
+.page-body {
+    width: 1120px;
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.col-md-6 {
+    width: 50%;
+}
+
+.col-md-12 {
+    width: 100%;
+}
+
+.page-header-container {
+    flex-direction: column; 
+    height: 200px;
+    justify-content: space-between;
+}
+
+.page-header-content {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.workspace-table-head {
+    flex-direction: row;
+    width: 100%;
+}
+
+.workspace-checkbox {
+    width: 5%;
+    justify-content: center;
+}
+
+.workspace-dashboard-name {
+    width: 30%;
+}
+
+.workspace-creation-date {
+    width: 15%;
+}
+
+.workspace-property-name {
+    width: 20%;
+}
+
+.workspace-open-button {
+    width: 30%;
+    justify-content: end;
+}
+
+.dashboard-list-container {
+    background-color: #fff;
+    border-radius: 4px;
+    border: 0.5px solid var(--background-2, #C7C7C7);
+    background: var(--white, #FFF);
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.15);
+    margin: 10px 0;
+}
+
+.dashboard-list-item {
+    height: 58px;
+    align-items: center;
+    border-bottom: 0.4px solid #C7C7C7;
+}
+
+.menu-button {
+    border-radius: 6px;
+    border: 0.5px solid var(--background-2, #C7C7C7);
+    background: var(--white, #FFF);
+    /* SHDW 1 */
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.18);
+
+    display: inline-flex;
+    padding: 6px 14px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+}
+
+.menu-button:hover, .icon-button:hover {
+    border: 0.5px solid var(--background-2, #C7C7C7);
+    background: #EFEFEF;
+    /* SHDW 1 */
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.18);
+    cursor: pointer;
+}
+
+.icon-button {
+    display: inline-flex;
+    padding: 6px 14px;
+    max-height: 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    border: 0.5px solid var(--background-2, #C7C7C7);
+    background: var(--white, #FFF);
+    /* SHDW 1 */
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.18);
+}
